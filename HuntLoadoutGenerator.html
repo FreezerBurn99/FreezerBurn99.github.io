@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hunt Showdown Loadout Generator</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+           font-size: 80%;
+        }
+
+        p {
+           font-family: Chiller;
+           line-height: 0.5;
+        }
+        
+        .loadout-container {
+            text-align: center;
+            font-size: 3vw;
+            padding: 20px;
+            border: 2px solid #8b4513;
+            border-radius: 10px;
+            background-color: #2a2a2a;
+            max-width: 80%;
+        }
+        
+        button {
+            margin-top: 20px;
+            padding: 15px 30px;
+            font-size: 1.5vw;
+            background-color: #8b4513;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #6b3410;
+        }
+    </style>
+</head>
+<body>
+    <div class="loadout-container" id="loadout"></div>
+    <button onclick="generateLoadout()">Generate New Loadout</button>
+
+    <script>
+        const largeWeapons = ["Berthier", "Berthier Deadeye", "Berthier Marksman", "Berthier Riposte", "Bomb Lance", "Caldwell",
+            "Crossbow", "Crown & King", "Drilling", "LeMat Carbine", "LeMat Carbine Marksman", "Lebel",
+            "Lebel Aperture", "Lebel Marksman", "Lebel Talon", "Martini", "Martini Deadeye", "Martini Ironside",
+            "Martini Marksman", "Martini Riposte", "Mosin", "Mosin Avtomat", "Mosin Bayonet", "Mosin Sniper",
+            "Nagant Officer Carbine", "Nagant Officer Carbine Deadeye", "Nitro", "Romero", "Romero Alamo",
+            "Romero talon", "Sparks", "Sparks Silencer", "Sparks Sniper", "Specter", "Specter Bayonet",
+            "Springfield", "Springfield Bayonet", "Springfield Marksman", "Springfield Krag",
+            "Springfield Krag Bayonet", "Springfield Krag Sniper", "Vetterli", "Vetterli Bayonet",
+            "Vetterli Cyclone", "Vetterli Deadeye", "Vetterli Marksman", "Vetterli Silencer", "Winfield Terminus",
+            "Winfield Slate", "Winfield Slate Riposte", "Winfield", "Winfield Aperture", "Winfield Musket Bayonet",
+            "Winfield Swift", "Winfield Talon", "Winfield -C", "Winfield -C Marksman", "Winfield -C Silencer",
+            "Winfield Centennial", "Winfield Centennial Sniper", "Winfield Centennial Trauma"];
+        
+        const mediumWeapons = ["Bornheim Match", "Uppercut Precision", "Uppercut Precision Deadeye", "Caldwell Handcannon",
+            "Combat Axe", "Drilling Handcannon", "Drilling Hatchet", "Hunting Bow", "Katana", "LeMat Uppercut",
+            "Mosin Obrez", "Mosin Obrez Drum", "Mosin Obrez Mace", "Nagant Precision", "Nagant Deadeye",
+            "Railroad Hammer", "Romero Handcannon", "Romero Hatchet", "Scottfield Precision", "Specter Compact",
+            "Springfield Compact", "Springfield Compact Deadeye", "Springfield Compact Striker",
+            "Winfield Terminus Handcannon", "Winfield -C Vandal", "Winfield -C Vandal Deadeye",
+            "Winfield -C Vandal Striker", "Winfield Centennial Shorty", "Winfield Centennial Shorty Silencer"];
+        
+        const smallWeapons = ["Baseball Bat", "Bornheim", "Bornheim Extended", "Bornheim Silencer", "New Army", "New Army Swift",
+            "Caldwell Conversion", "Caldwell Conversion Chain", "Uppercut", "Caldwell Pax", "Caldwell Pax Claw",
+            "Caldwell Pax Trueshot", "Cavalry Saber", "Dolch", "Dolch Claw", "Dolch Deadeye", "Hand Crossbow",
+            "LeMat", "Machete", "Nagant", "Nagant Officer", "Nagant Silencer", "Nagant Officer Brawler",
+            "Scottfield", "Scottfield Brawler", "Scottfield Spitfire", "Scottfield Swift", "Sparks Pistol"];
+        
+        const noDualWield = ["Baseball Bat", "Cavalry Saber", "Hand Crossbow", "Machete"];
+        const consumables = ["Ammo Box", "Big Dynamite Bundle", "Choke Beetle", "Fire Beetle", "Stalker Beetle", "Chaos Bomb",
+            "Concertina Bomb", "Dynamite Bundle", "Dynamite Stick", "Fire Bomb", "Flash Bomb", "Frag Bomb",
+            "Hellfire Bomb", "Hive Bomb", "Liquid Fire Bomb", "Medical Pack", "Poison Bomb", "Tool Box",
+            "Sticky Bomb", "Waxed Dynamite Stick", "Antidote Shot", "Regeneration Shot", "Stamina Shot",
+            "Vitality Shot", "Antidote Shot (Weak)", "Regeneration Shot (Weak)", "Stamina Shot (Weak)",
+            "Vitality Shot (Weak)"];
+        
+        const tools = ["Alert Trip Mine", "Bear Trap", "Blank Fire Decoys", "Choke Bomb", "Concertina Trip Mine", "Decoy Fuses",
+            "Decoys", "Dusters", "Pennyshot", "First Aid Kit", "Flare Pistol", "Fusees", "Heavy Knife", "Knife",
+            "Knuckle Knife", "Poison Trip Mine", "Derringer", "Spyglass", "Throwing Axes", "Throwing Knives",
+            "Throwing Spear"];
+
+        function generateLoadout() {
+            let second_weapon = "Blank";
+            let tools_loadout = [];
+            let consumables_loadout = [];
+            let weapon_slot_budget = 4;
+            
+            const first_weapon_type = Math.floor(Math.random() * 3) + 1;
+            let first_weapon;
+
+            if (first_weapon_type === 1) {
+                const dual = Math.floor(Math.random() * 2);
+                let non_dual_catch = smallWeapons[Math.floor(Math.random() * smallWeapons.length)];
+                
+                if (dual === 0) {
+                    first_weapon = non_dual_catch;
+                    weapon_slot_budget -= 1;
+                } else {
+                    while (noDualWield.includes(non_dual_catch)) {
+                        non_dual_catch = smallWeapons[Math.floor(Math.random() * smallWeapons.length)];
+                    }
+                    first_weapon = "Dual " + non_dual_catch;
+                    weapon_slot_budget -= 2;
+                }
+            } else if (first_weapon_type === 2) {
+                first_weapon = mediumWeapons[Math.floor(Math.random() * mediumWeapons.length)];
+                weapon_slot_budget -= 2;
+            } else {
+                first_weapon = largeWeapons[Math.floor(Math.random() * largeWeapons.length)];
+                weapon_slot_budget -= 3;
+            }
+
+            if (weapon_slot_budget === 3) {
+                second_weapon = largeWeapons[Math.floor(Math.random() * largeWeapons.length)];
+            } else if (weapon_slot_budget === 2) {
+                const med_or_small = Math.floor(Math.random() * 2) + 1;
+                if (med_or_small === 1) {
+                    const dual = Math.floor(Math.random() * 2);
+                    let non_dual_catch2 = smallWeapons[Math.floor(Math.random() * smallWeapons.length)];
+                    
+                    if (dual === 0) {
+                        second_weapon = non_dual_catch2;
+                    } else {
+                        while (noDualWield.includes(non_dual_catch2)) {
+                            non_dual_catch2 = smallWeapons[Math.floor(Math.random() * smallWeapons.length)];
+                        }
+                        second_weapon = "Dual " + non_dual_catch2;
+                    }
+                } else {
+                    second_weapon = mediumWeapons[Math.floor(Math.random() * mediumWeapons.length)];
+                }
+            } else if (weapon_slot_budget === 1) {
+                second_weapon = smallWeapons[Math.floor(Math.random() * smallWeapons.length)];
+            }
+
+            // Generate tools and consumables
+            const tools_holster = [];
+            const consumables_holster = [];
+            
+            while (tools_holster.length < 4) {
+                const newTool = Math.floor(Math.random() * tools.length);
+                if (!tools_holster.includes(newTool)) tools_holster.push(newTool);
+            }
+            
+            while (consumables_holster.length < 4) {
+                const newConsumable = Math.floor(Math.random() * consumables.length);
+                if (!consumables_holster.includes(newConsumable)) consumables_holster.push(newConsumable);
+            }
+
+            const tools_output = tools_holster.map(index => tools[index]).join(', ');
+            const consumables_output = consumables_holster.map(index => consumables[index]).join(', ');
+
+            const outputHTML = `
+                <h1>HUNT SHOWDOWN LOADOUT</h1>
+                <p>Primary Weapon: ${first_weapon}</p>
+                <p>Secondary Weapon: ${second_weapon}</p>
+                <p>Consumables: ${consumables_output}</p>
+                <p>Tools: ${tools_output}</p>
+                <h2>Good luck, Hunter!</h2>
+            `;
+
+            document.getElementById('loadout').innerHTML = outputHTML;
+        }
+
+        // Generate initial loadout on page load
+        generateLoadout();
+    </script>
+</body>
+</html>
