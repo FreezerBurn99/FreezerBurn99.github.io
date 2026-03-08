@@ -37,6 +37,17 @@ button{
     background:#4CAF50;
     color:white;
     font-weight:bold;
+    cursor:pointer;
+    transition: background 0.2s;
+}
+
+button:hover{
+    background:#45a049;
+}
+
+button:active{
+    background:#3e8e41;
+    transform: translateY(2px);
 }
 
 .result{
@@ -55,6 +66,10 @@ button{
 <input id="speed" placeholder="Speed per Round">
 
 <input id="distance" placeholder="Distance">
+<select id="distanceUnit">
+<option value="FEET">Feet</option>
+<option value="MILES">Miles</option>
+</select>
 
 <input id="maxHours" placeholder="Max Hours per Day">
 
@@ -65,7 +80,7 @@ button{
 <option value="DAYS">Days</option>
 </select>
 
-<button onclick="calculate()">Calculate</button>
+<button type="button" onclick="calculate()">Calculate</button>
 
 <div class="result" id="result">Result</div>
 
@@ -82,6 +97,7 @@ No network calls are made.
 */
 
 const ROUND_SECONDS = 6;
+const FEET_PER_MILE = 5280;
 
 /*
 Main calculator function triggered by the button.
@@ -91,13 +107,24 @@ performs the calculation, and updates the page.
 
 function calculate(){
 
-    const speed = parseFloat(document.getElementById("speed").value);
-    const distance = parseFloat(document.getElementById("distance").value);
-    const maxHours = parseFloat(document.getElementById("maxHours").value);
+    let speed = parseFloat(document.getElementById("speed").value);
+    let distance = parseFloat(document.getElementById("distance").value);
+    let maxHours = parseFloat(document.getElementById("maxHours").value);
 
-    const unit = document.getElementById("unit").value;
+    let unit = document.getElementById("unit").value;
+    let distanceUnit = document.getElementByID("distanceUnit").value;
 
-    const rounds = distance / speed;
+    if(isNaN(speed) || isNaN(distance) || isNaN(maxHours) || speed <= 0){
+        document.getElementById("result").innerText = 
+        "Please enter valid numbers.";
+        return;
+    }
+
+    if(distanceUnit === "MILES"){
+        distance = distance * FEET_PER_MILE;
+    }
+
+    let rounds = distance / speed;
 
     let result;
 
