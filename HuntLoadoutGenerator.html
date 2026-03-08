@@ -52,54 +52,59 @@
 </head>
 <body>
     <div class="loadout-container" id="loadout"></div>
+    <label><input type="checkbox" name="traitCheck" value="Quartermaster">Using Quartermaster</label>
     <button onclick="generateLoadout()">Generate New Loadout</button>
 
     <script>
-        const largeWeapons = ["Berthier", "Berthier Deadeye", "Berthier Marksman", "Berthier Riposte", "Bomb Lance", "Caldwell",
-            "Crossbow", "Crown & King", "Drilling", "LeMat Carbine", "LeMat Carbine Marksman", "Lebel",
-            "Lebel Aperture", "Lebel Marksman", "Lebel Talon", "Martini", "Martini Deadeye", "Martini Ironside",
-            "Martini Marksman", "Martini Riposte", "Mosin", "Mosin Avtomat", "Mosin Bayonet", "Mosin Sniper",
-            "Nagant Officer Carbine", "Nagant Officer Carbine Deadeye", "Nitro", "Romero", "Romero Alamo",
-            "Romero talon", "Sparks", "Sparks Silencer", "Sparks Sniper", "Specter", "Specter Bayonet",
-            "Springfield", "Springfield Bayonet", "Springfield Marksman", "Springfield Krag",
-            "Springfield Krag Bayonet", "Springfield Krag Sniper", "Vetterli", "Vetterli Bayonet",
-            "Vetterli Cyclone", "Vetterli Deadeye", "Vetterli Marksman", "Vetterli Silencer", "Winfield Terminus",
-            "Winfield Slate", "Winfield Slate Riposte", "Winfield", "Winfield Aperture", "Winfield Musket Bayonet",
-            "Winfield Swift", "Winfield Talon", "Winfield -C", "Winfield -C Marksman", "Winfield -C Silencer",
-            "Winfield Centennial", "Winfield Centennial Sniper", "Winfield Centennial Trauma"];
+        const largeWeapons = ["Frontier 73C","Frontier 73C Silencer","Frontier 73C Marksman","Infantry 73L","Infantry 73L Bayonet",
+                              "Infantry 73L Sniper","Marathon","Marathon Swift","Ranger 73","Ranger 73 Aperture","Ranger 73 Talon",
+                              "Ranger 73 Swift","LeMat Carbine","LeMat Carbine Marksman","1865 Carbine","Officer Carbine",
+                              "Officer Carbine Deadeye","1865 Carbine Aperture","1865 Carbine Silencer","Centennial","Centennial Sniper",
+                              "Centennial Trauma","Drilling","Maynard Sniper","Maynard Sniper Silencer","Springfield 1866",
+                              "Springfield 1866 Marksman","Springfield 1866 Bayonet","Vetterli 71","Vetterli 71 Deadeye",
+                              "Vetterli 71 Marksman","Vetterli 71 Bayonet","Vetterli 71 Silencer","Vetterli 71 Cyclone","Berthier 1892",
+                              "Berthier 1892 Riposte","Berthier 1892 Deadeye","Berthier 1892 Marksman","Krag", "Krag Bayonet",
+                              "Krag Sniper","Krag Silencer","Lebel 1886","Lebel 1886 Aperture","Lebel 1886 Talon","Lebel 1886 Marksman",
+                              "Mako 1895","Mako 1895 Claw","Mako 1895 Aperture","Martini-Henry","Martini-Henry Deadeye",
+                              "Martini-Henry Riposte","Martini-Henry Marksman","Martini-Henry Ironside","Mosin Obrez Match",
+                              "Mosin Obrez Sharpeye","Mosin-Nagant","Mosin-Nagant Bayonet","Mosin-Nagant Sniper","Mosin-Nagant Avtomat",
+                              "Sparks","Sparks Silencer","Sparks Sniper","Auto-5","Rival 78","Rival 78 Trauma","Romero 77","Romero 77 Talon",
+                              "Romero 77 Alamo","Slate","Slate Riposte","Specter 1882","Specter 1882 Bayonet","Terminus","Bomb Lance",
+                              "Crossbow","Crossbow Deadeye","Nitro Express"];
         
-        const mediumWeapons = ["Bornheim Match", "Uppercut Precision", "Uppercut Precision Deadeye", "Caldwell Handcannon",
-            "Combat Axe", "Drilling Handcannon", "Drilling Hatchet", "Hunting Bow", "Katana", "LeMat Uppercut",
-            "Mosin Obrez", "Mosin Obrez Drum", "Mosin Obrez Mace", "Nagant Precision", "Nagant Deadeye",
-            "Railroad Hammer", "Romero Handcannon", "Romero Hatchet", "Scottfield Precision", "Specter Compact",
-            "Springfield Compact", "Springfield Compact Deadeye", "Springfield Compact Striker",
-            "Winfield Terminus Handcannon", "Winfield -C Vandal", "Winfield -C Vandal Deadeye",
-            "Winfield -C Vandal Striker", "Winfield Centennial Shorty", "Winfield Centennial Shorty Silencer"];
+        const mediumWeapons = ["Vandal 73C","Vandal 73C Striker","Vandal 73C Bullseye","Bornheim No.3 Match","Nagant M1895 Precision",
+                               "Nagant M1895 Deadeye","Centennial Shorty","Centennial Shorty Silencer","Drilling Shorty","Drilling Hatchet",
+                               "Springfield 1866 Shorty","Springfield 1866 Striker","Springfield 1866 Bullseye","Scottfield Precision",
+                               "Mosin Obrez","Mosin Obrez Mace","Mosin Obrez Extended","Uppercut Precision","Uppercut Deadeye","Auto-4 Shorty",
+                               "Rival 78 Shorty","Rival 78 Mace","Romero 77 Shorty","Romero 77 Hatchet","Specter 1882 Shorty","Terminus Shorty",
+                               "Bomb Launcher","Chu Ko Nu","Dolch 96 Precision","Hunting Bow"];
         
-        const smallWeapons = ["Baseball Bat", "Bornheim", "Bornheim Extended", "Bornheim Silencer", "New Army", "New Army Swift",
-            "Caldwell Conversion", "Caldwell Conversion Chain", "Uppercut", "Caldwell Pax", "Caldwell Pax Claw",
-            "Caldwell Pax Trueshot", "Cavalry Saber", "Dolch", "Dolch Claw", "Dolch Deadeye", "Hand Crossbow",
-            "LeMat", "Machete", "Nagant", "Nagant Officer", "Nagant Silencer", "Nagant Officer Brawler",
-            "Scottfield", "Scottfield Brawler", "Scottfield Spitfire", "Scottfield Swift", "Sparks Pistol"];
+        const smallWeapons = ["Bornheim No.3","Bornheim No.3 Silencer","Bornheim No.3 Extended","Conversion","Conversion Chain Pistol",
+                              "LeMat","Nagant M1895","Nagant M1895 Silencer","New Army","New Army Swift","Officer","Officer Brawler",
+                              "Pax","Pax Claw","Pax Trueshot","Scottfield","Scottfield Brawler","Scottfield Spitfire","Scottfield Swift",
+                              "Sparks Pistol","Sparks Pistol Silencer","Haymaker","Uppercut","Dolch 96","Dolch 96 Claw","Dolch 96 Bullseye",
+                              "Hand Crossbow","Baseball Bat","Cavalry Saber","Combat Axe","Katana","Machete","Railroad Hammer"];
         
-        const noDualWield = ["Baseball Bat", "Cavalry Saber", "Hand Crossbow", "Machete"];
-        const consumables = ["Ammo Box", "Big Dynamite Bundle", "Choke Beetle", "Fire Beetle", "Stalker Beetle", "Chaos Bomb",
-            "Concertina Bomb", "Dynamite Bundle", "Dynamite Stick", "Fire Bomb", "Flash Bomb", "Frag Bomb",
-            "Hellfire Bomb", "Hive Bomb", "Liquid Fire Bomb", "Medical Pack", "Poison Bomb", "Tool Box",
-            "Sticky Bomb", "Waxed Dynamite Stick", "Antidote Shot", "Regeneration Shot", "Stamina Shot",
-            "Vitality Shot", "Antidote Shot (Weak)", "Regeneration Shot (Weak)", "Stamina Shot (Weak)",
-            "Vitality Shot (Weak)"];
+        const noDualWield = ["Baseball Bat","Cavalry Saber","Combat Axe","Katana","Machete","Railroad Hammer"];
+        const consumables = ["Ammo Box","Tool Box","Fire Bomb","Hellfire Bomb","Liquid Fire Bomb","Dynamite Stick","Dynamite Bundle",
+                             "Waxed Dynamite Stick","Big Dynamite Bundle","Sticky Bomb","Frag Bomb","Dark Dynamite Satchel","Hive Bomb",
+                             "Poison Bomb","Chaos Bomb","Antidote Shot","Antidote Shot (Weak)","Regeneration Shot","Regeneration Shot (Weak)",
+                             "Stamina Shot","Stamina Shot (Weak)","Medical Pack","Vitality Shot","Vitality Shot (Weak)","Recovery Shot",
+                             "Stalker Beetle","Choke Beetle","Fire Beetle","Concertina Bomb","Flash Bomb"];
         
-        const tools = ["Alert Trip Mine", "Bear Trap", "Blank Fire Decoys", "Choke Bomb", "Concertina Trip Mine", "Decoy Fuses",
-            "Decoys", "Dusters", "Pennyshot", "First Aid Kit", "Flare Pistol", "Fusees", "Heavy Knife", "Knife",
-            "Knuckle Knife", "Poison Trip Mine", "Derringer", "Spyglass", "Throwing Axes", "Throwing Knives",
-            "Throwing Spear"];
+        const tools = ["Blank Fire Decoys","Decoys","Decoy Fuses","First Aid Kit","Flare Pistol","Fusees","Dusters","Heavy Knife","Knife",
+                       "Knuckle Knife","Throwing Axes","Throwing Knives","Throwing Spear","Derringer Pennyshot","Quad Derringer",
+                       "Alert Trip Mines","Concertina Trip Mines","Poison Trip Mines","Bear Traps","Choke Bombs","Spyglass"];
 
         function generateLoadout() {
-            let second_weapon = "Blank";
+            let second_weapon;
             let tools_loadout = [];
             let consumables_loadout = [];
             let weapon_slot_budget = 4;
+
+            if (traitCheck == "Quartermaster") {
+                weapon_slot_budget = 5;
+            }
             
             const first_weapon_type = Math.floor(Math.random() * 3) + 1;
             let first_weapon;
