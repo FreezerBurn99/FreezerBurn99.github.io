@@ -1,40 +1,49 @@
 package com.example.ttrpgtravelcalculator;
 
 /*
- TravelCalculator contains the core logic of the application.
+TravelCalculator performs the core math for determining travel time.
 
- This class is completely independent of Android UI code.
- That allows the math engine to be easily reused or tested.
-
- Responsibilities:
- - Convert speed and distance into rounds
- - Convert rounds into minutes, hours, or days
- - Respect maximum travel time per day
+All calculations are internally converted into feet and rounds
+to keep the logic simple and consistent.
 */
 
 public class TravelCalculator {
 
-    // Constant defining the duration of one round in seconds
     private static final double ROUND_SECONDS = 6.0;
+    private static final double FEET_PER_MILE = 5280.0;
 
     /*
-     Main calculation method.
+    Main calculation method
 
-     Parameters:
-     speed = distance traveled per round
-     distance = total distance to travel
-     maxHoursPerDay = maximum allowed travel hours per day
-     unit = desired output format
+    speed = feet per round (6 seconds)
+    distance = distance value entered
+    distanceUnit = whether the distance is feet or miles
+    maxHoursPerDay = maximum travel hours allowed in one day
+    unit = desired output unit
     */
 
     public static double calculateTravelTime(
             double speed,
             double distance,
+            DistanceUnit distanceUnit,
             double maxHoursPerDay,
             TimeUnit unit
     ) {
 
-        // Determine how many rounds are required to travel the distance
+        /*
+        Convert miles to feet if necessary so all math
+        uses the same base unit.
+        */
+
+        if (distanceUnit == DistanceUnit.MILES) {
+            distance = distance * FEET_PER_MILE;
+        }
+
+        /*
+        Determine how many rounds are required to
+        travel the total distance.
+        */
+
         double rounds = distance / speed;
 
         switch (unit) {
