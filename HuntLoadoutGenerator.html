@@ -52,7 +52,7 @@
 </head>
 <body>
     <div class="loadout-container" id="loadout"></div>
-    <label><input type="checkbox" name="traitCheck" value="Quartermaster">Using Quartermaster></label>
+    <label><input type="checkbox" name="traitCheck" value="Quartermaster"Using Quartermaster></label>
     <button onclick="generateLoadout()">Generate New Loadout</button>
 
     <script>
@@ -95,7 +95,7 @@
         const tools = ["Blank Fire Decoys","Decoys","Decoy Fuses","First Aid Kit","Flare Pistol","Fusees","Dusters","Heavy Knife","Knife",
                        "Knuckle Knife","Throwing Axes","Throwing Knives","Throwing Spear","Derringer Pennyshot","Quad Derringer",
                        "Alert Trip Mines","Concertina Trip Mines","Poison Trip Mines","Bear Traps","Choke Bombs","Spyglass"];
-
+        let traitCheck =""
         function generateLoadout() {
             let second_weapon;
             let tools_loadout = [];
