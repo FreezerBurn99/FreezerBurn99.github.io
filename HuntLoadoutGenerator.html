@@ -95,15 +95,16 @@
         const tools = ["Blank Fire Decoys","Decoys","Decoy Fuses","First Aid Kit","Flare Pistol","Fusees","Dusters","Heavy Knife","Knife",
                        "Knuckle Knife","Throwing Axes","Throwing Knives","Throwing Spear","Derringer Pennyshot","Quad Derringer",
                        "Alert Trip Mines","Concertina Trip Mines","Poison Trip Mines","Bear Traps","Choke Bombs","Spyglass"];
-        let traitCheck ="Placeholder"
+        let traitCheckChecker ="Placeholder"
         function generateLoadout() {
             let second_weapon;
             let tools_loadout = [];
             let consumables_loadout = [];
             let weapon_slot_budget = 4;
 
-            if (traitCheck == "Quartermaster") {
+            if (document.getElementById('traitCheck').checked) {
                 weapon_slot_budget = 5;
+                traitCheckChecker ="Quartermaster";
             }
             
             const first_weapon_type = Math.floor(Math.random() * 3) + 1;
@@ -178,7 +179,7 @@
                 <p>Consumables: ${consumables_output}</p>
                 <p>Tools: ${tools_output}</p>
                 <h2>Good luck, Hunter!</h2>
-                <h2>${traitCheck}</h2>
+                <h2>${traitCheckChecker}</h2>
             `;
 
             document.getElementById('loadout').innerHTML = outputHTML;
