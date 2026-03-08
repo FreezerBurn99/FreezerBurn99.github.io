@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText maxHoursInput;
 
     private Spinner outputUnitSpinner;
+    private Spinner distanceUnitSpinner;
 
     private TextView resultText;
 
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         maxHoursInput = findViewById(R.id.maxHoursInput);
 
         outputUnitSpinner = findViewById(R.id.outputUnitSpinner);
+        distanceUnitSpinner = findViewById(R.id.distanceUnitSpinner);
 
         Button calculateButton = findViewById(R.id.calculateButton);
 
@@ -60,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
             TimeUnit unit = TimeUnit.valueOf(
                     outputUnitSpinner.getSelectedItem().toString()
             );
+            DistanceUnit distanceUnit = DistanceUnit.valueOf(
+                distanceUnitSpinner.getSelectedItem().toString();
+            )
 
             double result = TravelCalculator.calculateTravelTime(
                     speed,
