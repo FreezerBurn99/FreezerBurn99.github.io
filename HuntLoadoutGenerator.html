@@ -132,7 +132,7 @@
                 weapon_slot_budget -= 3;
             }
 
-            if (weapon_slot_budget === 3) {
+            if (weapon_slot_budget >= 3) {
                 second_weapon = largeWeapons[Math.floor(Math.random() * largeWeapons.length)];
             } else if (weapon_slot_budget === 2) {
                 const med_or_small = Math.floor(Math.random() * 2) + 1;
