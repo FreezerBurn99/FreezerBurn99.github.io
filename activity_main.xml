@@ -30,6 +30,9 @@
     <Spinner
         android:id="@+id/outputUnitSpinner"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        andriod:id="@+id/distanceUnitSpinner"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <Button
