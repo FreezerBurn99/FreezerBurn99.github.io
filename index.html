@@ -1,7 +1,134 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TTRPG Travel Time Calculator</title>
+
+<style>
+/*
+Simple styling so the calculator is readable on desktop and mobile
+*/
+body{
+    font-family: Arial, sans-serif;
+    background:#1e1e1e;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.container{
+    background:#2c2c2c;
+    padding:25px;
+    border-radius:10px;
+    width:300px;
+}
+
+input, select, button{
+    width:100%;
+    margin-top:10px;
+    padding:8px;
+    border-radius:5px;
+    border:none;
+}
+
+button{
+    background:#4CAF50;
+    color:white;
+    font-weight:bold;
+}
+
+.result{
+    margin-top:15px;
+    font-size:18px;
+}
+</style>
+</head>
+
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</b>
+
+<div class="container">
+
+<h2>TTRPG Travel Calculator</h2>
+
+<input id="speed" placeholder="Speed per Round">
+
+<input id="distance" placeholder="Distance">
+
+<input id="maxHours" placeholder="Max Hours per Day">
+
+<select id="unit">
+<option value="ROUNDS">Rounds</option>
+<option value="MINUTES">Minutes</option>
+<option value="HOURS">Hours</option>
+<option value="DAYS">Days</option>
+</select>
+
+<button onclick="calculate()">Calculate</button>
+
+<div class="result" id="result">Result</div>
+
+</div>
+
+<script>
+
+/*
+This JavaScript section replicates the same logic
+used in the Android TravelCalculator class.
+
+Everything runs locally in the browser.
+No network calls are made.
+*/
+
+const ROUND_SECONDS = 6;
+
+/*
+Main calculator function triggered by the button.
+Reads input values from the HTML form,
+performs the calculation, and updates the page.
+*/
+
+function calculate(){
+
+    const speed = parseFloat(document.getElementById("speed").value);
+    const distance = parseFloat(document.getElementById("distance").value);
+    const maxHours = parseFloat(document.getElementById("maxHours").value);
+
+    const unit = document.getElementById("unit").value;
+
+    const rounds = distance / speed;
+
+    let result;
+
+    switch(unit){
+
+        case "ROUNDS":
+            result = rounds;
+            break;
+
+        case "MINUTES":
+            result = (rounds * ROUND_SECONDS) / 60;
+            break;
+
+        case "HOURS":
+            result = (rounds * ROUND_SECONDS) / 3600;
+            break;
+
+        case "DAYS":
+            const hours = (rounds * ROUND_SECONDS) / 3600;
+            result = hours / maxHours;
+            break;
+
+        default:
+            result = rounds;
+    }
+
+    document.getElementById("result").innerText =
+        "Travel Time: " + result + " " + unit;
+}
+
+</script>
+
 </body>
 </html>
