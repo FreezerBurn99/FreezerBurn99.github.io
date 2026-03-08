@@ -112,7 +112,7 @@ function calculate(){
     let maxHours = parseFloat(document.getElementById("maxHours").value);
 
     let unit = document.getElementById("unit").value;
-    let distanceUnit = document.getElementByID("distanceUnit").value;
+    let distanceUnit = document.getElementById("distanceUnit").value;
 
     if(isNaN(speed) || isNaN(distance) || isNaN(maxHours) || speed <= 0){
         document.getElementById("result").innerText = 
@@ -159,3 +159,4 @@ function calculate(){
 
 </body>
 </html>
+
